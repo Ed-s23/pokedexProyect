@@ -1,10 +1,14 @@
 import React from 'react'
+import Header from './components/Header'
+import ListaPokemons from './pages/ListaPokemons'
 
 const App = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+
+       <Header/>
+        <ListaPokemons/>
+    </>
   )
 }
 
