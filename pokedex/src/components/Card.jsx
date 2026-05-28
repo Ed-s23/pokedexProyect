@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {SyncLoader} from 'react-spinners'
 
 function Card({url,nombre,noPokemon}) {
+
+    const URL = "https://pokeapi.co/api/v2/pokemon/"
     const [imagen,setImagen] = useState();
     const obtenerImagen = async ()=>{
         try {
             const resultado = await fetch(url);
             const datosPokemon = await resultado.json();
-
             setImagen(datosPokemon.sprites.other.dream_world.front_default);
         } catch (error) {
             console.log(error);
         }
     }
-
     useEffect(()=>{
         obtenerImagen()
     },[]);

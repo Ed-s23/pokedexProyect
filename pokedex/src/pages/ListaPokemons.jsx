@@ -1,51 +1,40 @@
 
 import Card from "../components/Card"
-import { Children, useContext, useEffect, useState } from "react"
+import { Children, useContext, useEffect, useEffectEvent, useState } from "react"
 import {Plus,Search, Target } from 'lucide-react'
 
 const ListaPokemons = () => {
 
 
-  const URL = "https://pokeapi.co/api/v2/pokemon/"
-  const URLFull = "https://pokeapi.co/api/v2/pokemon/?limit=100000&offset=0"
+  const URL = "https://pokeapi.co/api/v2/pokemon/?"
+  const URLFull = "https://pokeapi.co/api/v2/pokemon/?limit=1000&offset=0"
   const [pokemons, setPokemons] = useState([]); 
   const [next,setNext] = useState(null); //Nuevo hocks
   const [pokemonName, setPokemonName] = useState("");
-
- const [todosPokemons,setTodosPokemons] = useState([])
+  const [todosPokemons,setTodosPokemons] = useState([])
+  //const [estadoNombre, setEstadoNombre] =useState(false)
  
   const pokemonByName = todosPokemons.filter(pokemons => 
-    pokemons.name.includes(pokemonName))
-  console.log(pokemonByName)
-   //const {contexto,setContexto} = useContext(value)
+    pokemons.name.includes(pokemonName))   
+
   //! Nuevo estado 
-  const handleChangePokemonName = (e)=> 
-     setPokemonName(e.target.value.toLowerCase())
-  // //  console.log("change")
+  const handleChangePokemonName = (e,evt)=> {
+    setPokemonName(e.target.value.toLowerCase())
 
-  
-
-
-
+  }
 
 
  // ! LLamada a todos los pokemons a la hora de la busuqeda 
-
-//   // // const buscadorPrueva = ({children}) = {
    const allPokemons = async (url)=>{
        try {
       const resultado = await fetch(url);
       const datosPokemon = await resultado.json();
-      setTodosPokemons([...todosPokemons, ...datosPokemon.results]);
+      setTodosPokemons([...todosPokemons, ...datosPokemon.results]);//* No mover, es quien almacena los poquemonees para la busqueda
        } catch (error) {
-         console.error(error)
+         console.error(error("Erro al cargar las cosas",error))
       }
-
      }
-   
-
-  //const handleSu
-  const obtenerPokemons = async (url) => {// Obtiene Url 
+  const obtenerPokemons = async (url) => {
     try {
       const resultado = await fetch(url);
       const datosPokemon = await resultado.json();
@@ -56,19 +45,23 @@ const ListaPokemons = () => {
       console.error(error)
     }
   }
-
-
+//todo: creo que almacena los 20 pokemons y los imprime con un .log
   useEffect(() => {
     console.log(pokemons)
   }, [pokemons])
+//todo: Funciona para el resto de pokemones creo
+  useEffect(()=>{
+    console.log(pokemonByName)
+  }, [pokemonByName])
 //! 50  pokemons
   useEffect(() => {
     obtenerPokemons(URL)
+    allPokemons(URLFull)
   }, [])
-//! Todos los poqumons
-   useEffect(() => {
-     allPokemons(URLFull)
-   }, [])
+
+// Determinar qué lista renderizar
+  const tieneBusqueda = pokemonName.trim() !== "";
+  const listaALeera =  pokemonByName
 
   return (
     <section>
@@ -87,17 +80,28 @@ const ListaPokemons = () => {
       </div>
 
       <ul className=" flex flex-wrap w-full justify-center gap-2">
-        {pokemons.map((pokemon, indice) => (
+        {!tieneBusqueda? 
+        (pokemons.map((pokemon, indice) => (
           <Card 
           key = {indice}
           url = {pokemon.url} 
           nombre={pokemon.name} 
           noPokemon={indice +1}
           />
+         ))
+        ):
 
-
-        ))}
-
+        (pokemonByName.map((pokemon,indice)=>(
+        <Card
+          key = {pokemon.url}
+          url = {pokemon.url} 
+          nombre={pokemon.name} 
+          //noPokemon={idPokemon }
+        />
+        )))
+  }
+       
+        
       </ul>
       <div className="flex w-full justify-center my-10">
         {
