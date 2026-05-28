@@ -6,7 +6,7 @@ import {Plus,Search, Target } from 'lucide-react'
 const ListaPokemons = () => {
 
 
-  const URL = "https://pokeapi.co/api/v2/pokemon/?"
+  const URL = "https://pokeapi.co/api/v2/pokemon/"
   const URLFull = "https://pokeapi.co/api/v2/pokemon/?limit=1000&offset=0"
   const [pokemons, setPokemons] = useState([]); 
   const [next,setNext] = useState(null); //Nuevo hocks
@@ -61,7 +61,7 @@ const ListaPokemons = () => {
 
 // Determinar qué lista renderizar
   const tieneBusqueda = pokemonName.trim() !== "";
-  const listaALeera =  pokemonByName
+ //const listaALeera =  pokemonByName
 
   return (
     <section>
@@ -91,12 +91,12 @@ const ListaPokemons = () => {
          ))
         ):
 
-        (pokemonByName.map((pokemon,indice)=>(
+        (pokemonByName.map((pokemon)=>(
         <Card
           key = {pokemon.url}
           url = {pokemon.url} 
           nombre={pokemon.name} 
-          //noPokemon={idPokemon }
+         // noPokemon={pokemonName.url.id}
         />
         )))
   }
