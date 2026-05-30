@@ -64,7 +64,10 @@ const ListaPokemons = () => {
  //const listaALeera =  pokemonByName
 
   return (
-    <section>
+    
+    <section >  
+     
+     
       <div className="flex justify-center mb-10" >
       <form className="flex border-2 border-red-900 px-2">
         <input 
@@ -87,6 +90,8 @@ const ListaPokemons = () => {
           url = {pokemon.url} 
           nombre={pokemon.name} 
           noPokemon={indice +1}
+          pokemon = {pokemon}
+       
           />
          ))
         ):
